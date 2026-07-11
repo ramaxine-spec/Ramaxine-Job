@@ -1,0 +1,482 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FREELANCE RAMAXINE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            min-height: 100vh;
+            font-family: 'Inter', system-ui, sans-serif;
+            background: #f8fafc;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        .container { max-width: 1100px; width: 100%; }
+
+        .header {
+            background: white;
+            border-radius: 28px;
+            padding: 20px 32px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            border: 1px solid rgba(226,232,240,0.6);
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .header-logo {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2.5px solid #e2e8f0;
+            flex-shrink: 0;
+        }
+        .header-title h1 {
+            font-size: 24px;
+            font-weight: 900;
+            color: #0f172a;
+            letter-spacing: -0.5px;
+            line-height: 1.2;
+        }
+        .header-title h1 span {
+            background: linear-gradient(135deg, #e53e3e, #c53030);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header-title p {
+            font-size: 13px;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+        .header-title p i { color: #22c55e; font-size: 8px; margin-right: 6px; }
+
+        .header-right {
+            text-align: right;
+            background: #f1f5f9;
+            padding: 8px 20px;
+            border-radius: 16px;
+        }
+        .header-right .time { font-size: 28px; font-weight: 800; color: #0f172a; }
+        .header-right .date { font-size: 13px; color: #94a3b8; }
+
+        .status-bar {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            background: white;
+            padding: 10px 24px;
+            border-radius: 50px;
+            margin-bottom: 28px;
+            border: 1px solid #f1f5f9;
+        }
+        .status-bar .dot {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            background: #22c55e;
+            animation: pulse-dot 1.8s ease-in-out infinite;
+        }
+        @keyframes pulse-dot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.4; transform: scale(0.8); }
+        }
+        .status-bar .text { font-size: 13px; color: #94a3b8; font-weight: 500; }
+        .status-bar .text strong { color: #0f172a; }
+        .status-bar .badge {
+            background: #f1f5f9;
+            padding: 2px 14px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 600;
+            color: #64748b;
+        }
+
+        .job-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 24px;
+        }
+
+        .job-card {
+            background: white;
+            border-radius: 24px;
+            padding: 30px 28px;
+            border: 1px solid #f1f5f9;
+            transition: all 0.35s cubic-bezier(0.4,0,0.2,1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.02);
+        }
+        .job-card::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0; height: 4px;
+            background: linear-gradient(90deg, #22c55e, #16a34a);
+            opacity: 0;
+            transition: 0.3s;
+        }
+        .job-card.closed::before {
+            background: linear-gradient(90deg, #ef4444, #dc2626);
+        }
+        .job-card:hover {
+            transform: translateY(-8px);
+            border-color: #e2e8f0;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.06);
+        }
+        .job-card:hover::before { opacity: 1; }
+
+        .job-top {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 12px;
+        }
+
+        .job-status {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 4px 14px;
+            border-radius: 50px;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .job-status.open {
+            background: #dcfce7;
+            color: #166534;
+        }
+        .job-status.open i { color: #22c55e; }
+        .job-status.closed {
+            background: #fee2e2;
+            color: #991b1b;
+        }
+        .job-status.closed i { color: #ef4444; }
+
+        .job-icon { font-size: 36px; color: #0f172a; opacity: 0.8; }
+        .job-title { font-size: 18px; font-weight: 700; color: #0f172a; margin-bottom: 8px; }
+        .job-desc {
+            color: #94a3b8;
+            font-size: 14px;
+            line-height: 1.6;
+            margin-bottom: 16px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .job-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding-top: 16px;
+            border-top: 1.5px solid #f1f5f9;
+        }
+        .job-rate { display: flex; align-items: center; gap: 6px; color: #0f172a; font-weight: 700; font-size: 14px; }
+        .job-rate i { color: #f59e0b; }
+        .job-slot { display: flex; align-items: center; gap: 6px; color: #94a3b8; font-size: 13px; font-weight: 500; }
+        .job-slot i { color: #94a3b8; }
+        .job-click { color: #94a3b8; font-size: 13px; font-weight: 500; transition: 0.3s; }
+        .job-card:hover .job-click { color: #0f172a; }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(15,23,42,0.6);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+            animation: fadeIn 0.3s ease;
+        }
+        .modal.active { display: flex; }
+        @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+        .modal-content {
+            background: white;
+            max-width: 680px;
+            width: 100%;
+            max-height: 85vh;
+            border-radius: 32px;
+            padding: 40px;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.2);
+            animation: slideUp 0.35s cubic-bezier(0.4,0,0.2,1);
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px) scale(0.97); }
+            to { opacity: 1; transform: translateY(0) scale(1); }
+        }
+        .modal-close {
+            position: sticky; top: 0; float: right;
+            background: #f1f5f9; border: none;
+            color: #64748b; font-size: 18px;
+            width: 40px; height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .modal-close:hover { background: #e2e8f0; color: #0f172a; }
+        .modal-title { font-size: 26px; font-weight: 800; color: #0f172a; margin: 12px 0 16px; }
+        .modal-body {
+            color: #334155;
+            font-size: 14.5px;
+            line-height: 1.9;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+        .modal-body .password-box {
+            background: #f1f5f9;
+            padding: 8px 18px;
+            border-radius: 12px;
+            display: inline-block;
+            margin: 6px 0;
+            font-family: 'Inter', monospace;
+            font-size: 16px;
+            color: #0f172a;
+            font-weight: 700;
+        }
+        .modal-body .copy-btn {
+            background: #f1f5f9;
+            color: #64748b;
+            border: none;
+            padding: 5px 16px;
+            border-radius: 10px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            margin-left: 8px;
+        }
+        .modal-body .copy-btn:hover { background: #e2e8f0; color: #0f172a; }
+        .modal-body .icon-desc { color: #0f172a; margin-right: 6px; width: 18px; display: inline-block; text-align: center; }
+
+        .footer {
+            margin-top: 48px;
+            text-align: center;
+            padding: 20px 0;
+            border-top: 1.5px solid #f1f5f9;
+        }
+        .footer a {
+            color: #94a3b8;
+            font-size: 13px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        .footer a:hover { color: #0f172a; }
+        .footer a i { margin-right: 6px; }
+
+        @media (max-width: 640px) {
+            .header { flex-direction: column; text-align: center; padding: 20px; }
+            .header-left { flex-direction: column; text-align: center; }
+            .header-right { text-align: center; width: 100%; }
+            .job-grid { grid-template-columns: 1fr; }
+            .modal-content { padding: 24px 20px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div class="header-left">
+            <img src="https://cdn.phototourl.com/free/2026-07-10-db12eaac-e788-4e5c-8cf5-3bde416584e0.png" alt="Logo" class="header-logo">
+            <div class="header-title">
+                <h1>FREELANCE <span>RAMAXINE</span></h1>
+                <p><i class="fas fa-circle"></i> Job Control · Real-time Updates</p>
+            </div>
+        </div>
+        <div class="header-right">
+            <div class="time" id="clockTime">--:--:--</div>
+            <div class="date" id="clockDate">--, -- --- --</div>
+        </div>
+    </div>
+
+    <div class="status-bar">
+        <span class="dot"></span>
+        <span class="text"><strong>Live</strong> · Semua orang bisa lihat update</span>
+        <span class="badge"><i class="fas fa-globe"></i> Public</span>
+    </div>
+
+    <div class="job-grid" id="jobGrid"></div>
+
+    <div class="footer">
+        <a href="admin.html"><i class="fas fa-lock"></i> Admin Panel</a>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal" id="jobModal">
+    <div class="modal-content">
+        <button class="modal-close" onclick="closeModal()"><i class="fas fa-times"></i></button>
+        <div class="modal-title" id="modalTitle">Job Title</div>
+        <div class="modal-body" id="modalBody">Deskripsi job...</div>
+    </div>
+</div>
+
+<script>
+const API_URL = window.location.origin + '/api/jobs';
+
+const defaultJobs = [
+    {
+        id: 1,
+        icon: 'fa-envelope',
+        title: 'CREATE GMAIL FRESH',
+        status: 'open',
+        rate: 'Rp 4.500 - Rp 5.000',
+        slot: 'Banyak slot',
+        description: 'RULES BUAT GMAIL FRESH\n\n<i class="fas fa-envelope icon-desc"></i> email harus fresh, tidak boleh bekas\n<i class="fas fa-folder icon-desc"></i> akun bisnis/pribadi\n<i class="fas fa-user icon-desc"></i> menggunakan nama manusia\n<i class="fas fa-calendar icon-desc"></i> tanggal lahir bebas\n<i class="fas fa-venus-mars icon-desc"></i> jenis kelamin bebas\n<i class="fas fa-key icon-desc"></i> PASSWORD: aass1122\n<i class="fas fa-sort-numeric-up icon-desc"></i> angka maks 2\n\nCONTOH EMAIL BENAR:\nrayhanescobar@gmail.com\nalbianahmad12@gmail.com\n\n<i class="fas fa-credit-card icon-desc"></i> Payment 1-2 hari\n<i class="fas fa-coins icon-desc"></i> rate Rp 4.500 - Rp 5.000\n<i class="fas fa-clock icon-desc"></i> maks setor jam 19:30'
+    },
+    {
+        id: 2,
+        icon: 'fa-star',
+        title: 'REVIEW GOOGLE MAPS',
+        status: 'open',
+        rate: 'Rp 1.000 - Rp 2.000',
+        slot: '20 slot',
+        description: 'RULES REVIEW GOOGLE MAPS\n━━━━━━━━━━━━━━━━━━━\n\nWAJIB DIPATUHI:\n\n1. <i class="fas fa-ban icon-desc"></i> Jangan Copy-Paste dari AI\n2. <i class="fas fa-key icon-desc"></i> Wajib Memasukkan Kata Kunci\n3. <i class="fas fa-pen-fancy icon-desc"></i> Tulis dengan Gaya Natural\n4. <i class="fas fa-bullhorn icon-desc"></i> Hindari Kata-Kata Promosi\n5. <i class="fas fa-check-circle icon-desc"></i> Perhatikan Penulisan\n6. <i class="fas fa-user-plus icon-desc"></i> Satu Akun, Satu Review\n7. <i class="fas fa-camera icon-desc"></i> Wajib Mengirim Bukti\n8. <i class="fas fa-thumbs-up icon-desc"></i> Review Wajib Positif\n\n<i class="fas fa-clock icon-desc"></i> Cara Posting: Jeda 1 jam\n\n<i class="fas fa-coins icon-desc"></i> Rate: Rp 1.000 - Rp 2.000'
+    },
+    {
+        id: 3,
+        icon: 'fa-mobile-screen-button',
+        title: 'FOLLOW / LIKE / KOMEN',
+        status: 'closed',
+        rate: 'Rp 500 - Rp 1.000',
+        slot: '15 slot',
+        description: 'SYARAT FOLIKOM\n\n1. <i class="fas fa-users icon-desc"></i> Gunakan akun sosial media aktif\n2. <i class="fas fa-comment-dots icon-desc"></i> Ikuti arahan admin\n3. <i class="fas fa-user-tag icon-desc"></i> Nama akun harus manusia\n4. <i class="fas fa-image icon-desc"></i> Photo Profile bebas\n\n<i class="fas fa-coins icon-desc"></i> Rate: Rp 500 - Rp 1.000'
+    }
+];
+
+async function loadJobs() {
+    try {
+        const res = await fetch(API_URL);
+        const data = await res.json();
+        return data;
+    } catch (e) {
+        console.log('Gagal fetch, pake default');
+        return defaultJobs;
+    }
+}
+
+async function renderJobs() {
+    const jobs = await loadJobs();
+    const grid = document.getElementById('jobGrid');
+    grid.innerHTML = '';
+
+    jobs.forEach(job => {
+        const isOpen = job.status === 'open';
+        const card = document.createElement('div');
+        card.className = `job-card ${job.status}`;
+        card.id = `card-${job.id}`;
+        card.innerHTML = `
+            <div class="job-top">
+                <div class="job-status ${job.status}">
+                    <i class="fas ${isOpen ? 'fa-check-circle' : 'fa-times-circle'}"></i>
+                    ${isOpen ? 'OPEN' : 'CLOSE'}
+                </div>
+                <div class="job-icon"><i class="fas ${job.icon}"></i></div>
+            </div>
+            <div class="job-title">${job.title}</div>
+            <div class="job-desc">${job.description.replace(/<[^>]*>/g, '').substring(0, 120)}...</div>
+            <div class="job-meta">
+                <span class="job-rate"><i class="fas fa-coins"></i> ${job.rate}</span>
+                <span class="job-slot"><i class="fas fa-box"></i> ${job.slot}</span>
+                <span class="job-click">Detail <i class="fas fa-arrow-right" style="font-size:11px;"></i></span>
+            </div>
+        `;
+        card.addEventListener('click', () => openModal(job));
+        grid.appendChild(card);
+    });
+}
+
+function openModal(job) {
+    document.getElementById('modalTitle').textContent = `${job.title}`;
+    let body = job.description;
+    if (job.id === 1) {
+        body = body.replace(
+            'aass1122',
+            `<span class="password-box">aass1122</span> <button class="copy-btn" onclick="copyPassword()"><i class="fas fa-copy"></i> Salin</button>`
+        );
+    }
+    body = body.replace(/\n/g, '<br>');
+    document.getElementById('modalBody').innerHTML = body;
+    document.getElementById('jobModal').classList.add('active');
+    document.body.style.overflow = 'hidden';
+}
+
+function closeModal() {
+    document.getElementById('jobModal').classList.remove('active');
+    document.body.style.overflow = 'auto';
+}
+
+function copyPassword() {
+    navigator.clipboard.writeText('aass1122').then(() => {
+        const btn = document.querySelector('.copy-btn');
+        const original = btn.innerHTML;
+        btn.innerHTML = '<i class="fas fa-check"></i> Tersalin!';
+        setTimeout(() => btn.innerHTML = original, 1500);
+    });
+}
+
+document.getElementById('jobModal').addEventListener('click', function(e) {
+    if (e.target === this) closeModal();
+});
+
+async function checkUpdates() {
+    const jobs = await loadJobs();
+    jobs.forEach(job => {
+        const card = document.getElementById(`card-${job.id}`);
+        if (!card) return;
+        card.className = `job-card ${job.status}`;
+        const statusBadge = card.querySelector('.job-status');
+        const isOpen = job.status === 'open';
+        statusBadge.innerHTML = `
+            <i class="fas ${isOpen ? 'fa-check-circle' : 'fa-times-circle'}"></i>
+            ${isOpen ? 'OPEN' : 'CLOSE'}
+        `;
+        statusBadge.className = `job-status ${job.status}`;
+    });
+}
+
+function updateClock() {
+    const now = new Date();
+    const days = ['Minggu','Senin','Selasa','Rabu','Kamis','Jumat','Sabtu'];
+    const months = ['Jan','Feb','Mar','Apr','Mei','Jun','Jul','Agu','Sep','Okt','Nov','Des'];
+    document.getElementById('clockTime').textContent =
+        String(now.getHours()).padStart(2,'0')+':'+String(now.getMinutes()).padStart(2,'0')+':'+String(now.getSeconds()).padStart(2,'0');
+    document.getElementById('clockDate').textContent =
+        `${days[now.getDay()]}, ${now.getDate()} ${months[now.getMonth()]} ${now.getFullYear()}`;
+}
+
+renderJobs();
+updateClock();
+setInterval(updateClock, 1000);
+setInterval(checkUpdates, 5000);
+</script>
+
+</body>
+</html>
