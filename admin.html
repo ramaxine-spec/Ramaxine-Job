@@ -1,0 +1,536 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - FREELANCE RAMAXINE</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            min-height: 100vh;
+            font-family: 'Inter', system-ui, sans-serif;
+            background: #f8fafc;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: flex-start;
+        }
+        .container { max-width: 900px; width: 100%; }
+
+        .header {
+            background: white;
+            border-radius: 28px;
+            padding: 20px 32px;
+            margin-bottom: 32px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.04);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 16px;
+            border: 1px solid rgba(226,232,240,0.6);
+        }
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .header-logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2.5px solid #e2e8f0;
+            flex-shrink: 0;
+        }
+        .header-title h1 {
+            font-size: 20px;
+            font-weight: 800;
+            color: #0f172a;
+            line-height: 1.2;
+        }
+        .header-title h1 span {
+            background: linear-gradient(135deg, #e53e3e, #c53030);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .header-title p {
+            font-size: 13px;
+            color: #94a3b8;
+            font-weight: 500;
+        }
+
+        .header-actions {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        .btn-back {
+            padding: 10px 20px;
+            border-radius: 14px;
+            border: 1px solid #e2e8f0;
+            background: white;
+            color: #64748b;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-back:hover {
+            background: #f8fafc;
+            border-color: #cbd5e0;
+            color: #0f172a;
+        }
+        .btn-reset {
+            padding: 10px 20px;
+            border-radius: 14px;
+            border: 1px solid #fee2e2;
+            background: white;
+            color: #ef4444;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-reset:hover { background: #fef2f2; border-color: #fca5a5; }
+
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+            gap: 16px;
+            margin-bottom: 28px;
+        }
+        .stat-card {
+            background: white;
+            border-radius: 20px;
+            padding: 20px 24px;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.03);
+            text-align: center;
+            border: 1px solid #f1f5f9;
+            transition: 0.3s;
+        }
+        .stat-card:hover {
+            border-color: #e2e8f0;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+        }
+        .stat-card .number {
+            font-size: 34px;
+            font-weight: 800;
+            color: #0f172a;
+            letter-spacing: -0.5px;
+        }
+        .stat-card .label {
+            color: #94a3b8;
+            font-size: 13px;
+            font-weight: 500;
+            margin-top: 4px;
+        }
+        .stat-card .number.open { color: #22c55e; }
+        .stat-card .number.closed { color: #ef4444; }
+
+        .job-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        .job-item {
+            background: white;
+            border-radius: 18px;
+            padding: 18px 24px;
+            border: 1px solid #f1f5f9;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 14px;
+            transition: 0.3s;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.02);
+        }
+        .job-item:hover {
+            border-color: #e2e8f0;
+            box-shadow: 0 4px 16px rgba(0,0,0,0.05);
+        }
+        .job-info {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        .job-icon { font-size: 24px; color: #0f172a; opacity: 0.7; }
+        .job-title { color: #0f172a; font-weight: 600; font-size: 15px; }
+        .job-status {
+            padding: 4px 14px;
+            border-radius: 50px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .job-status.open { background: #dcfce7; color: #166534; }
+        .job-status.closed { background: #fee2e2; color: #991b1b; }
+        .job-rate { color: #f59e0b; font-size: 13px; font-weight: 600; }
+        .job-rate i { margin-right: 4px; }
+
+        .job-actions {
+            display: flex;
+            gap: 8px;
+        }
+        .btn-toggle {
+            padding: 8px 20px;
+            border: none;
+            border-radius: 12px;
+            font-weight: 600;
+            font-size: 13px;
+            cursor: pointer;
+            transition: 0.3s;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .btn-toggle.open { background: #dcfce7; color: #166534; }
+        .btn-toggle.open:hover { background: #bbf7d0; }
+        .btn-toggle.closed { background: #fee2e2; color: #991b1b; }
+        .btn-toggle.closed:hover { background: #fecaca; }
+
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            padding: 16px 28px;
+            border-radius: 18px;
+            color: white;
+            font-weight: 600;
+            font-size: 14px;
+            opacity: 0;
+            transition: all 0.5s cubic-bezier(0.4,0,0.2,1);
+            transform: translateY(20px) scale(0.95);
+            z-index: 999;
+            box-shadow: 0 12px 40px rgba(0,0,0,0.15);
+        }
+        .toast.show { opacity: 1; transform: translateY(0) scale(1); }
+        .toast.success { background: #22c55e; }
+        .toast.error { background: #ef4444; }
+        .toast.info { background: #3b82f6; }
+
+        .footer-login {
+            margin-top: 40px;
+            text-align: center;
+            padding: 18px 0;
+            border-top: 1.5px solid #f1f5f9;
+        }
+        .footer-login a {
+            color: #94a3b8;
+            font-size: 13px;
+            text-decoration: none;
+            font-weight: 500;
+            transition: 0.3s;
+        }
+        .footer-login a:hover { color: #0f172a; }
+        .footer-login a i { margin-right: 6px; }
+
+        .login-modal {
+            display: none;
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: rgba(15,23,42,0.6);
+            backdrop-filter: blur(12px);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+        .login-modal.active { display: flex; }
+        .login-box {
+            background: white;
+            max-width: 380px;
+            width: 100%;
+            border-radius: 32px;
+            padding: 44px 36px;
+            box-shadow: 0 40px 80px rgba(0,0,0,0.2);
+            text-align: center;
+            animation: slideUp 0.35s cubic-bezier(0.4,0,0.2,1);
+        }
+        .login-box .icon { font-size: 48px; color: #0f172a; opacity: 0.7; margin-bottom: 12px; }
+        .login-box h2 { color: #0f172a; margin-bottom: 6px; font-size: 24px; font-weight: 800; }
+        .login-box .sub { color: #94a3b8; font-size: 14px; font-weight: 500; margin-bottom: 24px; }
+        .login-box input {
+            width: 100%;
+            padding: 14px 18px;
+            border-radius: 14px;
+            border: 1.5px solid #e2e8f0;
+            background: #f8fafc;
+            color: #0f172a;
+            font-size: 15px;
+            font-weight: 500;
+            margin-bottom: 16px;
+            transition: 0.3s;
+        }
+        .login-box input:focus {
+            outline: none;
+            border-color: #0f172a;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(15,23,42,0.06);
+        }
+        .login-box button {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 14px;
+            background: #0f172a;
+            color: white;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+            font-size: 15px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+        .login-box button:hover {
+            background: #1e293b;
+            transform: translateY(-2px);
+            box-shadow: 0 8px 24px rgba(15,23,42,0.15);
+        }
+        .login-box .error { color: #ef4444; margin-top: 12px; font-size: 14px; font-weight: 500; }
+        .login-box .hint { color: #94a3b8; font-size: 12px; margin-top: 16px; }
+
+        @media (max-width: 640px) {
+            .header { flex-direction: column; text-align: center; padding: 20px; }
+            .header-left { flex-direction: column; text-align: center; }
+            .job-item { flex-direction: column; align-items: stretch; }
+            .job-actions { justify-content: flex-end; }
+            .stats { grid-template-columns: 1fr 1fr; }
+            .login-box { padding: 30px 24px; }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <div class="header">
+        <div class="header-left">
+            <img src="https://cdn.phototourl.com/free/2026-07-10-db12eaac-e788-4e5c-8cf5-3bde416584e0.png" alt="Logo" class="header-logo">
+            <div class="header-title">
+                <h1>Admin <span>RAMAXINE</span></h1>
+                <p><i class="fas fa-circle" style="color:#22c55e; font-size:8px;"></i> Kelola Job</p>
+            </div>
+        </div>
+        <div class="header-actions">
+            <a href="index.html" class="btn-back"><i class="fas fa-eye"></i> Lihat Website</a>
+            <button class="btn-reset" onclick="resetData()"><i class="fas fa-undo"></i> Reset</button>
+        </div>
+    </div>
+
+    <div class="stats" id="stats"></div>
+    <div class="job-list" id="jobList"></div>
+
+    <div class="footer-login">
+        <a href="#" onclick="showLogin()"><i class="fas fa-lock"></i> Admin Login</a>
+    </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<div class="login-modal" id="loginModal">
+    <div class="login-box">
+        <div class="icon"><i class="fas fa-lock"></i></div>
+        <h2>Login Admin</h2>
+        <p class="sub">Masukkan password untuk mengelola job</p>
+        <input type="password" id="adminPassword" placeholder="Password" onkeydown="if(event.key==='Enter') loginAdmin()">
+        <button onclick="loginAdmin()"><i class="fas fa-sign-in-alt"></i> Login</button>
+        <div class="error" id="loginError"></div>
+        <div class="hint"><i class="fas fa-info-circle"></i> Hubungi admin jika lupa password</div>
+    </div>
+</div>
+
+<script>
+const ADMIN_PASSWORD = 'Shifa123';
+const API_URL = window.location.origin + '/api/jobs';
+
+const defaultJobs = [
+    {
+        id: 1,
+        icon: 'fa-envelope',
+        title: 'CREATE GMAIL FRESH',
+        status: 'open',
+        rate: 'Rp 4.500 - Rp 5.000',
+        slot: 'Banyak slot',
+        description: 'RULES BUAT GMAIL FRESH\n\n<i class="fas fa-envelope icon-desc"></i> email harus fresh, tidak boleh bekas\n<i class="fas fa-folder icon-desc"></i> akun bisnis/pribadi\n<i class="fas fa-user icon-desc"></i> menggunakan nama manusia\n<i class="fas fa-calendar icon-desc"></i> tanggal lahir bebas\n<i class="fas fa-venus-mars icon-desc"></i> jenis kelamin bebas\n<i class="fas fa-key icon-desc"></i> PASSWORD: aass1122\n<i class="fas fa-sort-numeric-up icon-desc"></i> angka maks 2\n\nCONTOH EMAIL BENAR:\nrayhanescobar@gmail.com\nalbianahmad12@gmail.com\n\n<i class="fas fa-credit-card icon-desc"></i> Payment 1-2 hari\n<i class="fas fa-coins icon-desc"></i> rate Rp 4.500 - Rp 5.000\n<i class="fas fa-clock icon-desc"></i> maks setor jam 19:30'
+    },
+    {
+        id: 2,
+        icon: 'fa-star',
+        title: 'REVIEW GOOGLE MAPS',
+        status: 'open',
+        rate: 'Rp 1.000 - Rp 2.000',
+        slot: '20 slot',
+        description: 'RULES REVIEW GOOGLE MAPS\n━━━━━━━━━━━━━━━━━━━\n\nWAJIB DIPATUHI:\n\n1. <i class="fas fa-ban icon-desc"></i> Jangan Copy-Paste dari AI\n2. <i class="fas fa-key icon-desc"></i> Wajib Memasukkan Kata Kunci\n3. <i class="fas fa-pen-fancy icon-desc"></i> Tulis dengan Gaya Natural\n4. <i class="fas fa-bullhorn icon-desc"></i> Hindari Kata-Kata Promosi\n5. <i class="fas fa-check-circle icon-desc"></i> Perhatikan Penulisan\n6. <i class="fas fa-user-plus icon-desc"></i> Satu Akun, Satu Review\n7. <i class="fas fa-camera icon-desc"></i> Wajib Mengirim Bukti\n8. <i class="fas fa-thumbs-up icon-desc"></i> Review Wajib Positif\n\n<i class="fas fa-clock icon-desc"></i> Cara Posting: Jeda 1 jam\n\n<i class="fas fa-coins icon-desc"></i> Rate: Rp 1.000 - Rp 2.000'
+    },
+    {
+        id: 3,
+        icon: 'fa-mobile-screen-button',
+        title: 'FOLLOW / LIKE / KOMEN',
+        status: 'closed',
+        rate: 'Rp 500 - Rp 1.000',
+        slot: '15 slot',
+        description: 'SYARAT FOLIKOM\n\n1. <i class="fas fa-users icon-desc"></i> Gunakan akun sosial media aktif\n2. <i class="fas fa-comment-dots icon-desc"></i> Ikuti arahan admin\n3. <i class="fas fa-user-tag icon-desc"></i> Nama akun harus manusia\n4. <i class="fas fa-image icon-desc"></i> Photo Profile bebas\n\n<i class="fas fa-coins icon-desc"></i> Rate: Rp 500 - Rp 1.000'
+    }
+];
+
+async function loadJobs() {
+    try {
+        const res = await fetch(API_URL);
+        const data = await res.json();
+        return data;
+    } catch (e) {
+        return defaultJobs;
+    }
+}
+
+async function saveJobs(jobs) {
+    try {
+        const res = await fetch(API_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(jobs)
+        });
+        return await res.json();
+    } catch (e) {
+        return { success: false };
+    }
+}
+
+function showLogin() {
+    document.getElementById('loginModal').classList.add('active');
+    document.getElementById('adminPassword').value = '';
+    document.getElementById('loginError').textContent = '';
+    setTimeout(() => document.getElementById('adminPassword').focus(), 100);
+}
+
+function closeLogin() {
+    document.getElementById('loginModal').classList.remove('active');
+}
+
+async function loginAdmin() {
+    const password = document.getElementById('adminPassword').value;
+    if (password === ADMIN_PASSWORD) {
+        sessionStorage.setItem('admin_logged_in', 'true');
+        closeLogin();
+        await renderAdmin();
+        showToast('Login berhasil!', 'success');
+    } else {
+        document.getElementById('loginError').textContent = 'Password salah!';
+        document.getElementById('adminPassword').value = '';
+        document.getElementById('adminPassword').focus();
+    }
+}
+
+document.getElementById('loginModal').addEventListener('click', function(e) {
+    if (e.target === this) closeLogin();
+});
+
+async function renderAdmin() {
+    const jobs = await loadJobs();
+
+    const total = jobs.length;
+    const open = jobs.filter(j => j.status === 'open').length;
+    const closed = jobs.filter(j => j.status === 'closed').length;
+
+    document.getElementById('stats').innerHTML = `
+        <div class="stat-card">
+            <div class="number">${total}</div>
+            <div class="label"><i class="fas fa-list"></i> Total Job</div>
+        </div>
+        <div class="stat-card">
+            <div class="number open">${open}</div>
+            <div class="label"><i class="fas fa-check-circle"></i> OPEN</div>
+        </div>
+        <div class="stat-card">
+            <div class="number closed">${closed}</div>
+            <div class="label"><i class="fas fa-times-circle"></i> CLOSE</div>
+        </div>
+    `;
+
+    const list = document.getElementById('jobList');
+    list.innerHTML = '';
+
+    jobs.forEach(job => {
+        const item = document.createElement('div');
+        item.className = 'job-item';
+        item.innerHTML = `
+            <div class="job-info">
+                <span class="job-icon"><i class="fas ${job.icon}"></i></span>
+                <span class="job-title">${job.title}</span>
+                <span class="job-status ${job.status}">
+                    ${job.status === 'open' ? 'OPEN' : 'CLOSE'}
+                </span>
+                <span class="job-rate"><i class="fas fa-coins"></i> ${job.rate}</span>
+            </div>
+            <div class="job-actions">
+                <button class="btn-toggle ${job.status}" onclick="toggleJob(${job.id})">
+                    <i class="fas ${job.status === 'open' ? 'fa-lock' : 'fa-lock-open'}"></i>
+                    ${job.status === 'open' ? 'Close' : 'Open'}
+                </button>
+            </div>
+        `;
+        list.appendChild(item);
+    });
+}
+
+async function toggleJob(jobId) {
+    const jobs = await loadJobs();
+    const job = jobs.find(j => j.id === jobId);
+
+    if (job) {
+        job.status = job.status === 'open' ? 'closed' : 'open';
+        const result = await saveJobs(jobs);
+        if (result.success) {
+            await renderAdmin();
+            const statusText = job.status === 'open' ? 'OPEN' : 'CLOSE';
+            showToast(`${statusText} - ${job.title}`, 'success');
+        } else {
+            showToast('Gagal menyimpan!', 'error');
+        }
+    }
+}
+
+async function resetData() {
+    if (confirm('Yakin mau reset ke data default?')) {
+        const result = await saveJobs(defaultJobs);
+        if (result.success) {
+            await renderAdmin();
+            showToast('Data direset!', 'info');
+        }
+    }
+}
+
+function showToast(message, type = 'success') {
+    const toast = document.getElementById('toast');
+    toast.textContent = message;
+    toast.className = 'toast ' + type + ' show';
+    clearTimeout(toast._timeout);
+    toast._timeout = setTimeout(() => {
+        toast.className = 'toast';
+    }, 3000);
+}
+
+const loggedIn = sessionStorage.getItem('admin_logged_in');
+if (loggedIn === 'true') {
+    renderAdmin();
+} else {
+    showLogin();
+}
+</script>
+
+</body>
+  </html>
